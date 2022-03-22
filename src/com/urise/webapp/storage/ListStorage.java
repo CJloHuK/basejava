@@ -7,7 +7,7 @@ import com.urise.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage implements Storage {
+public class ListStorage extends AbstractStorage {
 
     protected List<Resume> storage = new ArrayList<>();
 
@@ -17,44 +17,51 @@ public class ListStorage implements Storage {
     }
 
     @Override
-    public void update(Resume r) {
-        int index = storage.indexOf(r);
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        }
-        storage.set(index, r);
+    public Resume[] getAll() {
+        return storage.toArray(new Resume[0]);
     }
 
     @Override
-    public void save(Resume r) {
-        if (storage.contains(r)) {
-            throw new ExistStorageException(r.getUuid());
-        }
+    public int size() {
+        return storage.size();
+    }
+
+    @Override
+    protected void doSave(Resume r, Object searchKey) {
         storage.add(r);
     }
 
     @Override
-    public Resume get(String uuid) {
-        for(Resume r : storage) {
-            if(r.getUuid().equals(uuid)) {
-                return r;
+    protected Resume doGet(Object searchKey) {
+        return storage.get((int) searchKey);
+    }
+
+    @Override
+    protected void doUpdate(Resume r, Object searchKey) {
+        storage.set((int) searchKey, r);
+    }
+
+    @Override
+    protected void doDelete(Object searchKey) {
+        storage.remove((int) searchKey);
+    }
+
+    @Override
+    protected Object getSearchKeyIfExist(String uuid) {
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
+                return i;
             }
         }
         throw new NotExistStorageException(uuid);
     }
 
     @Override
-    public void delete(String uuid) {
-        storage.remove(get(uuid));
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[size()]);
-    }
-
-    @Override
-    public int size() {
-        return storage.size();
+    protected Object getSearchKeyIfNotExist(Resume r) {
+        int index = storage.indexOf(r);
+        if (index >= 0) {
+            throw new ExistStorageException(r.getUuid());
+        }
+        return index;
     }
 }
