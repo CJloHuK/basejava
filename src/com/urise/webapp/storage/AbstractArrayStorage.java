@@ -63,11 +63,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
-        return getIndex(uuid);
-    }
-
-    protected abstract int getIndex(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void fillDeletedElement(int index);
 
