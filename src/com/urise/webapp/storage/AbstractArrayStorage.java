@@ -23,10 +23,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    public Resume[] getAll() {
+    protected Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
-
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
