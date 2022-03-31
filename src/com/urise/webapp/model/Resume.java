@@ -1,6 +1,5 @@
 package com.urise.webapp.model;
 
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -40,12 +39,15 @@ public class Resume implements Comparable<Resume>{
 
         Resume resume = (Resume) o;
 
-        return uuid.equals(resume.uuid) && Objects.equals(fullName, ((Resume) o).fullName);
+        if (!uuid.equals(resume.uuid)) return false;
+        return fullName.equals(resume.fullName);
     }
 
     @Override
     public int hashCode() {
-        return uuid.hashCode() + fullName.hashCode();
+        int result = uuid.hashCode();
+        result = 31 * result + fullName.hashCode();
+        return result;
     }
 
     @Override
