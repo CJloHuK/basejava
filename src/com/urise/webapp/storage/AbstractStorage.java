@@ -8,29 +8,29 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<T> implements Storage {
 
     @Override
     public void update(Resume r) {
-        Object searchKey = getSearchKeyIfExist(r.getUuid());
+        T searchKey = getSearchKeyIfExist(r.getUuid());
         doUpdate(r, searchKey);
     }
 
     @Override
     public void save(Resume r) {
-        Object searchKey = getSearchKeyIfNotExist(r.getUuid());
+        T searchKey = getSearchKeyIfNotExist(r.getUuid());
         doSave(r, searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        Object searchKey = getSearchKeyIfExist(uuid);
+        T searchKey = getSearchKeyIfExist(uuid);
         doDelete(searchKey);
     }
 
     @Override
     public Resume get(String uuid) {
-        Object searchKey = getSearchKeyIfExist(uuid);
+        T searchKey = getSearchKeyIfExist(uuid);
         return doGet(searchKey);
     }
 
@@ -51,31 +51,31 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Resume[] getAll();
 
-    protected abstract void doDelete(Object searchKey);
+    protected abstract void doDelete(T searchKey);
 
-    protected abstract Resume doGet(Object searchKey);
+    protected abstract Resume doGet(T searchKey);
 
-    protected abstract void doUpdate(Resume r, Object searchKey);
+    protected abstract void doUpdate(Resume r, T searchKey);
 
-    protected abstract void doSave(Resume r, Object searchKey);
+    protected abstract void doSave(Resume r, T searchKey);
 
-    protected Object getSearchKeyIfExist(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    protected T getSearchKeyIfExist(String uuid) {
+        T searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
         return searchKey;
     }
 
-    protected Object getSearchKeyIfNotExist(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    protected T getSearchKeyIfNotExist(String uuid) {
+        T searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
         return searchKey;
     }
 
-    protected abstract boolean isExist(Object searchKey);
+    protected abstract boolean isExist(T searchKey);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract T getSearchKey(String uuid);
 }
