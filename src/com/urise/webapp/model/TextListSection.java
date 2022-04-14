@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextListSection extends Section{
+    private static final long serialVersionUID = 1L;
     private List<String> descriptionList = new ArrayList<>();
 
     public List<String> getDescriptionList() {
