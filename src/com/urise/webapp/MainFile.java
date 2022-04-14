@@ -13,7 +13,7 @@ public class MainFile {
 //            throw new RuntimeException("Error", e);
 //        }
 
-        File dir = new File("./src/com/urise/webapp");
+        File dir = new File("./src/com/urise/webapp/test");
         //System.out.println(dir.isDirectory());
         if (dir.isDirectory()) {
             printFiles(dir, "");
