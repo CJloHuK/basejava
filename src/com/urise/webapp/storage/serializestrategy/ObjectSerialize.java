@@ -8,7 +8,7 @@ import java.io.*;
 public class ObjectSerialize implements SerializeStrategy{
 
     @Override
-    public Resume read(InputStream is) throws IOException {
+    public Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
@@ -17,7 +17,7 @@ public class ObjectSerialize implements SerializeStrategy{
     }
 
     @Override
-    public void write(OutputStream os, Resume r) throws IOException {
+    public void doWrite(Resume r, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(r);
         }
