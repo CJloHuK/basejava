@@ -12,7 +12,7 @@ public class ObjectSerialize implements SerializeStrategy{
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
-            throw new StorageException("Read file error", null);
+            throw new StorageException("Read file error");
         }
     }
 

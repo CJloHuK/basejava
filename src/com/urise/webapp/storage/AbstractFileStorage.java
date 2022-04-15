@@ -36,7 +36,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
                 resumes[i] = doGet(list[i]);
             }
             return resumes;
-        } else throw new StorageException("Directory read error", null);
+        } else throw new StorageException("Directory read error");
     }
 
     @Override
@@ -98,7 +98,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public int size() {
         String[] list = directory.list();
         if (list == null) {
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
         return list.length;
     }
