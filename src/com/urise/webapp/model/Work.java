@@ -1,7 +1,11 @@
 package com.urise.webapp.model;
 
 import com.urise.webapp.util.DateUtil;
+import com.urise.webapp.util.LocalDateAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -10,11 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Work implements Serializable {
     private static final long serialVersionUID = 1L;
     private String title;
 
     private List<WorkDescription> descriptionList = new ArrayList<>();
+
+    public Work() {
+    }
 
     public Work(String title) {
         this.title = title;
@@ -22,6 +30,19 @@ public class Work implements Serializable {
 
     public void addDescription(WorkDescription workDescription) {
         descriptionList.add(workDescription);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Work work = (Work) o;
+        return Objects.equals(title, work.title) && Objects.equals(descriptionList, work.descriptionList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, descriptionList);
     }
 
     @Override
@@ -35,13 +56,19 @@ public class Work implements Serializable {
     }
 
 
-    public class WorkDescription implements Serializable {
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class WorkDescription implements Serializable {
         private static final long serialVersionUID = 1L;
         //private String dates;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate endDate;
         private String title;
         private String description;
+
+        public WorkDescription() {
+        }
 
         public WorkDescription(int startYear, Month startMonth, String title, String description) {
             this(DateUtil.of(startYear, startMonth), DateUtil.NOW, title, description);
@@ -59,6 +86,19 @@ public class Work implements Serializable {
             this.endDate = endDate;
             this.title = title;
             this.description = description;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            WorkDescription that = (WorkDescription) o;
+            return startDate.equals(that.startDate) && endDate.equals(that.endDate) && title.equals(that.title) && Objects.equals(description, that.description);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(startDate, endDate, title, description);
         }
 
         @Override

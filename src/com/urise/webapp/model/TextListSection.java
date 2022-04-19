@@ -11,6 +11,9 @@ public class TextListSection extends Section{
         return descriptionList;
     }
 
+    public TextListSection() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

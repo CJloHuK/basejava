@@ -7,6 +7,9 @@ public class WorkSection extends Section{
     private static final long serialVersionUID = 1L;
     private List<Work> workList = new ArrayList<>();
 
+    public WorkSection() {
+    }
+
     public List<Work> getWorkList() {
         return workList;
     }
