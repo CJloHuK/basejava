@@ -28,6 +28,14 @@ public class Work implements Serializable {
         this.title = title;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public List<WorkDescription> getDescriptionList() {
+        return descriptionList;
+    }
+
     public void addDescription(WorkDescription workDescription) {
         descriptionList.add(workDescription);
     }
@@ -86,6 +94,22 @@ public class Work implements Serializable {
             this.endDate = endDate;
             this.title = title;
             this.description = description;
+        }
+
+        public LocalDate getStartDate() {
+            return startDate;
+        }
+
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         @Override

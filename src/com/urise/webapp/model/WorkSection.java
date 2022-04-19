@@ -10,6 +10,9 @@ public class WorkSection extends Section{
     public WorkSection() {
     }
 
+    public void addWork(Work work) {
+        workList.add(work);
+    }
     public List<Work> getWorkList() {
         return workList;
     }

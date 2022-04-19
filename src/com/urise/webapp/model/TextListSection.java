@@ -14,6 +14,10 @@ public class TextListSection extends Section{
     public TextListSection() {
     }
 
+    public void addDescription(String description) {
+        descriptionList.add(description);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
