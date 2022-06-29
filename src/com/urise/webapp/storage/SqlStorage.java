@@ -86,15 +86,19 @@ public class SqlStorage implements Storage {
                     }
                     Resume r = new Resume(uuid, rs.getString("full_name"));
                     do {
-                        String value = rs.getString("value");
-                        if (value != null) {
-                            ContactType type = ContactType.valueOf(rs.getString("type"));
-                            r.addContact(type, value);
-                        }
+                        addContactToResume(rs, r);
                     } while (rs.next());
 
                     return r;
                 });
+    }
+
+    private void addContactToResume(ResultSet rs, Resume r) throws SQLException {
+        String value = rs.getString("value");
+        if (value != null) {
+            ContactType type = ContactType.valueOf(rs.getString("type"));
+            r.addContact(type, value);
+        }
     }
 
     @Override
@@ -122,11 +126,7 @@ public class SqlStorage implements Storage {
                     list.add(r);
                 }
                 lastUuid = uuid;
-                String value = rs.getString("value");
-                if (value != null) {
-                    ContactType type = ContactType.valueOf(rs.getString("type"));
-                    r.addContact(type, value);
-                }
+                addContactToResume(rs, r);
             }
             return list;
         });
