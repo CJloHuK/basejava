@@ -28,32 +28,37 @@ public class ResumeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-
-//        response.setHeader("Content-Type", "text/html; charset=UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
-        String uuid = request.getParameter("uuid");
-        //response.getWriter().write(name == null ? "Hello Resumes!" : "Hello " + name + '!');
-        Resume r = null;
-        if (uuid != null) {
-            r = sqlStorage.get(uuid);
-        }
-        String tittle = uuid == null ? "List of resumes" : "Resume of " + r.getFullName();
-        PrintWriter writer = response.getWriter();
-        writer.println("<html>");
-        writer.println("<head>");
-        writer.println("<title>" + tittle + "</title>");
-        writer.println("</head>");
-        writer.println("<body>");
-        if (uuid == null) {
-            printResumeList(writer, sqlStorage);
-        } else {
-            printResume(writer, r);
-        }
-        writer.println("</body>");
-        writer.println("</html>");
+        request.setAttribute("resumes", sqlStorage.getAllSorted());
+        request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
     }
+
+//    {doGet:
+//    request.setCharacterEncoding("UTF-8");
+//        response.setCharacterEncoding("UTF-8");
+//
+////        response.setHeader("Content-Type", "text/html; charset=UTF-8");
+//        response.setContentType("text/html; charset=UTF-8");
+//        String uuid = request.getParameter("uuid");
+//        //response.getWriter().write(name == null ? "Hello Resumes!" : "Hello " + name + '!');
+//        Resume r = null;
+//        if (uuid != null) {
+//            r = sqlStorage.get(uuid);
+//        }
+//        String tittle = uuid == null ? "List of resumes" : "Resume of " + r.getFullName();
+//        PrintWriter writer = response.getWriter();
+//        writer.println("<html>");
+//        writer.println("<head>");
+//        writer.println("<title>" + tittle + "</title>");
+//        writer.println("</head>");
+//        writer.println("<body>");
+//        if (uuid == null) {
+//            printResumeList(writer, sqlStorage);
+//        } else {
+//            printResume(writer, r);
+//        }
+//        writer.println("</body>");
+//        writer.println("</html>");
+//    }
 
     private void printResumeList(PrintWriter pw, Storage storage) {
         pw.println("<table border>");
@@ -75,7 +80,7 @@ public class ResumeServlet extends HttpServlet {
         pw.println("<h1>" + r.getFullName() + "</h1>");
         pw.println("<br>");
         Map<ContactType, String> map = r.getContacts();
-        if(!map.isEmpty()) {
+        if (!map.isEmpty()) {
             pw.println("<h31>Contacts</h3>");
 
             pw.println("<table border>");
@@ -94,7 +99,7 @@ public class ResumeServlet extends HttpServlet {
             pw.println("<br>");
         }
         Map<SectionType, Section> sectionMap = r.getSections();
-        if(!map.isEmpty()) {
+        if (!map.isEmpty()) {
             pw.println("<h31>Sections</h3>");
 
             pw.println("<table border>");

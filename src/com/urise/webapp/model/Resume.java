@@ -60,6 +60,10 @@ public class Resume implements Comparable<Resume>, Serializable {
         return sections;
     }
 
+    public String getContact(ContactType contactType) {
+        return contacts.get(contactType);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
