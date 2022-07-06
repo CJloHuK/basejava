@@ -7,6 +7,7 @@ import com.urise.webapp.model.Section;
 import com.urise.webapp.model.SectionType;
 import com.urise.webapp.storage.Storage;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +18,19 @@ import java.util.List;
 import java.util.Map;
 
 public class ResumeServlet extends HttpServlet {
+    private Storage sqlStorage; // = Config.get().getStorage();
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        sqlStorage = Config.get().getStorage();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        Storage sqlStorage = Config.get().getStorage();
 //        response.setHeader("Content-Type", "text/html; charset=UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         String uuid = request.getParameter("uuid");
@@ -56,7 +64,7 @@ public class ResumeServlet extends HttpServlet {
         List<Resume> list = storage.getAllSorted();
         for (Resume r : list) {
             pw.println("<tr>");
-            pw.println("<td><a href =/resumes/resume?uuid=" + r.getUuid() + ">" + r.getUuid() + "</td>");
+            pw.println("<td><a href =resume?uuid=" + r.getUuid() + ">" + r.getUuid() + "</td>");
             pw.println("<td>" + r.getFullName() + "</td>");
             pw.println("</tr>");
         }
